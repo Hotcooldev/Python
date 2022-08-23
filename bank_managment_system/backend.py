@@ -24,6 +24,29 @@ def connect_database():
     if len(acc) == 0:
         acc_no = 1
     else:
+        acc_no = int(acc[-1][0]) + 1# making connection with database
+def connect_database():
+    global conn
+    global cur
+    conn = sqlite3.connect("bankmanaging.db")
+
+    cur = conn.cursor()
+
+    cur.execute(
+        "create table if not exists bank (acc_no int, name text, age int, address text, balance int, account_type text, mobile_number int)"
+    )
+    cur.execute(
+        "create table if not exists staff (name text, pass text,salary int, position text)"
+    )
+    cur.execute("create table if not exists admin (name text, pass text)")
+    cur.execute("insert into admin values('arpit','123')")
+    conn.commit()
+    cur.execute("select acc_no from bank")
+    acc = cur.fetchall()
+    global acc_no
+    if len(acc) == 0:
+        acc_no = 1
+    else:
         acc_no = int(acc[-1][0]) + 1
 
 
